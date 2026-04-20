@@ -218,9 +218,20 @@
 let clockInterval = null;
 let apiKey = null;
 let conversationHistory = [];
+let karenleft = false;
 
 function updateClock() {
   document.getElementById('clock').textContent = new Date().toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
+  const now = new Date();
+  const hour = now.getHours();
+  const minute = now.getMinutes();
+  if (hour === 16 && minute === 47 && !karenleft) {
+    karenleft = true;
+    document.querySelector('.avatar').src = 'karen-leaving.png';
+    document.getElementById('user-input').disabled = true;
+    const chatWindow = document.getElementById('chat-window');
+    chatWindow.innerHTML += `<div class="chat-bubble-Karen">BYE. I'm leaving Don't touch my stapler. 💅</div>`;
+  }
 }
 
 document.getElementById('user-input').addEventListener('keypress', function(e) {
