@@ -225,12 +225,12 @@ function updateClock() {
   const now = new Date();
   const hour = now.getHours();
   const minute = now.getMinutes();
-  if (hour === 16 && minute === 47 && !karenleft) {
-    karenleft = true;
-    document.querySelector('.avatar').src = 'karen-leaving.png';
-    document.getElementById('user-input').disabled = true;
-    const chatWindow = document.getElementById('chat-window');
-    chatWindow.innerHTML += `<div class="chat-bubble-Karen">BYE. I'm leaving Don't touch my stapler. 💅</div>`;
+  if (hour >=17 || hour < 9) {
+    document.querySelector('.avatar').src = 'Karen-buiscet.png';
+  } else if (hour === 16 && minute >= 47) {
+    document.querySelector('.avatar').src = 'Karen-leaving.png';
+  } else {
+        document.querySelector('.avatar').src = 'karen.jpeg';
   }
 }
 
