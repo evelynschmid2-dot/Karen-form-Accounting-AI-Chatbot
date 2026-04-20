@@ -195,7 +195,7 @@
     </div>
 
     <div class="input-field">
-      <input type="text" id="user-input" placeholder="Answer Karen...">
+      <textarea id="user-input" placeholder="Answer Karen..."></textarea>
       <button class="send-button" onclick="sendMessage()">Send</button>
     </div>
 
@@ -224,7 +224,7 @@ function updateClock() {
 }
 
 document.getElementById('user-input').addEventListener('keypress', function(e) {
-  if (e.key == 'Enter') sendMessage();
+  if (e.key == 'Enter' && !e.shiftKey) sendMessage();
 });
 
 async function sendMessage() {
