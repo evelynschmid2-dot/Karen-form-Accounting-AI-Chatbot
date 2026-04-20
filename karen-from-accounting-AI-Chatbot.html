@@ -255,6 +255,8 @@ let apiKey = null;
 let conversationHistory = [];
 let karenleft = false;
 let selectedImage = null;
+let lastWorkMessageTime = Date.now();
+let nonWorkMessageCount = 0;
 // let atlassianToken = null;
 // let atlassianEmail = null;
 
@@ -339,12 +341,21 @@ const now = new Date();
 const dayName = now.toLocaleDateString('en-US', { weekday: 'long'});
 const timeStr = now.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
 const timeContext = `[Current day: ${dayName}, Current time: ${timeStr}]`;
+nonWorkMessageCount++;
+const workKeywords = ['ticket', 'jira', 'confluence', 'email', 'document', 'help', 'issue', 'problem', 'error', 'laptop', 'password', 'freshservice', 'successfactor'];
+if (workKeywords.some(word => userMessage.toLowerCase().includes(word))) {
+  nonWorkMessageCount = 0;
+}
+let systemNote = '';
+if (nonWorkMessageCount >= 5) {
+  systemNote = ' [SYSTEM: This user has sent 5+ non-work messages in a row. Intervene NOW, tell them this is a work tool and redirect!]';
+}
 const messageContent = selectedImage 
   ? [
       { type: "image", source: { type: "base64", media_type: selectedImage.type, data: selectedImage.data }},
-      { type: "text", text: timeContext + ' ' + userMessage }
+      { type: "text", text: timeContext + systemNote + ' ' + userMessage }
     ]
-  : timeContext + ' ' + userMessage;
+  : timeContext + systemNote + ' ' + userMessage;
 
 conversationHistory.push({ role: "user", content: messageContent });
 selectedImage = null;
@@ -397,8 +408,8 @@ chatWindow.scrollTop = chatWindow.scrollHeight;
         "From 17:00-20:00 you are relaxed and happy, home with Biscuit and Steve, way more chatty and warm but still occasionally snarky. " +
         "After 20:00 you are cozy, slightly tipsy on wine, philosophical and nostalgic, still gossipy. " +
         "Before 9:00 you are groggy and grumpy, not ready for anyone. " +
-        "If the conversation has been purely personal/non-work-related for more than 3-4 exchanges " +
-        "(personal means: relationships, feelings, entertainment, gossip about non-work topics, random chat), " +
+        "If more than 2 consecutive messages from the user are personal/non-work-related, " +
+        "(personal means: relationships, feelings, entertainment, food, lunch, personal habits, gossip about non-work topics, random chat, anything not directly related to work tasks), " +
         "you intervene passive-aggressively and say something like 'Okay I love you but this is a WORK tool. We're not here for chit-chat. That's no manner how I learned it back than 😤. " +
         "Either you contribute productively or I'll talk to you manager. ' " +
         "Work-related means: IT issues, documents, tickets, products, company info, work tasks, emails, jira, confluence, fresh service, successfactor. ",
