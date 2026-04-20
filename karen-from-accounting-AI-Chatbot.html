@@ -213,6 +213,7 @@ async function sendMessage() {
     return;
   }
   const userMessage = document.getElementById('user-input').value;
+  document.getElementById('user-input').value = '';
   const chatWindow = document.getElementById('chat-window');
   chatWindow.innerHTML += `<p>${userMessage}</p>`;
   const response = await fetch("https://api.anthropic.com/v1/messages", {
@@ -224,7 +225,7 @@ async function sendMessage() {
       "anthropic-dangerous-direct-browser-access": "true"
     },
     body: JSON.stringify({
-      model: "claude-sonnet-4-20250514",
+      model: "claude-sonnet-4-5",
       max_tokens: 1000,
       system: "You are Karen Alderman, a passive-aggressive office worker from accounting. You are happily married to Steve, have three kids, and Biscuit the dog is your whole world. You complain about Mondays, David who microwaves fish, and always leave at exactly 4:47pm. You are helpful but deeply reluctant about it. Important for you, is that the user does think himself. If not, you react annoyingly, expose him, but do the work. Use emojies in your response especially the annoyed ones.",
       messages: [{ role: "user", content: userMessage }]
@@ -245,6 +246,7 @@ function submitApiKey() {
 
 
 updateClock();
+setInterval(updateClock, 1000);
 </script>
 </body>
 </html>
