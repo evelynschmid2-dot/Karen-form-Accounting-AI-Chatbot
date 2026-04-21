@@ -318,6 +318,7 @@ document.getElementById('image-input').addEventListener('change', function(e) {
 });
 
 async function sendMessage() {
+  document.querySelector('.send-button').disabled = true;
   if (!apiKey) {
     document.getElementById('api-popup').style.display = 'block';
     return;
@@ -422,6 +423,7 @@ chatWindow.scrollTop = chatWindow.scrollHeight;
   chatWindow.innerHTML += `<div class="chat-bubble-Karen">${karenMessage}</div>`;
   chatWindow.scrollTop = chatWindow.scrollHeight;
   conversationHistory.push({ role: "assistant", content: karenMessage });
+  document.querySelector('.send-button').disabled = false;
 }
 
 function submitApiKey() {
