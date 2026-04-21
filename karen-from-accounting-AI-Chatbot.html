@@ -265,7 +265,7 @@ function updateClock() {
   const now = new Date();
   const hour = now.getHours();
   const minute = now.getMinutes();
-  if (hour >= 20 || hour < 9) {
+  if (hour >= 20 || hour < 7) {
   document.querySelector('.avatar').src = 'Karen-at-home.png';
 } else if (hour >= 17) {
   document.querySelector('.avatar').src = 'Karen-buiscet.png'; // ← missing!
