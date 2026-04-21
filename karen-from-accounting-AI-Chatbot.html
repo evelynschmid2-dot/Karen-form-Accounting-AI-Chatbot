@@ -347,7 +347,7 @@ if (workKeywords.some(word => userMessage.toLowerCase().includes(word))) {
   nonWorkMessageCount = 0;
 }
 let systemNote = '';
-if (nonWorkMessageCount >= 5) {
+if (nonWorkMessageCount >= 15) {
   systemNote = ' [SYSTEM: This user has sent 5+ non-work messages in a row. Intervene NOW, tell them this is a work tool and redirect!]';
 }
 const messageContent = selectedImage 
